@@ -1,9 +1,9 @@
 var resources = require('./../../resources/model');
 
-var actuators = [];
+var actuators = {};
 // var interval;
 var model = resources.pi.actuators.leds;
-var pluginName = model.name;
+var pluginName = 'LED';
 var localParams = {'simulate': false, 'frequency': 2000};
 
 var numLed = 2;
@@ -19,8 +19,8 @@ exports.start = function (params) {
 
 exports.stop = function () {
   if (!localParams.simulate) {
-    for (i = 0; i < numLed; i++){
-        actuators[i].unexport();
+    for (var key in actuators){
+        actuators[key].unexport();
     }
   }
   console.info('%s plugin stopped!', pluginName);
@@ -33,9 +33,9 @@ exports.stop = function () {
 //   });
 // };
 
-exports.switchOnOff = function(ledNum, value) {
+exports.switchOnOff = function(ledKey, value) {
   if (!localParams.simulate) {
-    actuators[ledNum].write(value === true ? 1 : 0, function () { //#C
+    actuators[ledKey].write(value === true ? 1 : 0, function () { //#C
       console.info('Changed value of %s to %s', pluginName, value);
     });
   }
@@ -43,8 +43,8 @@ exports.switchOnOff = function(ledNum, value) {
 
 function connectHardware() {
   var Gpio = require('onoff').Gpio;
-  for (i = 0; i < numLed; i++){
-    actuators[i] = new Gpio(model[i.toString()].gpio, 'out'); //#D
+  for (var key in model){
+    actuators[key] = new Gpio(model[key].gpio, 'out'); //#D
   }
   console.info('Hardware %s actuator started!', pluginName);
 };

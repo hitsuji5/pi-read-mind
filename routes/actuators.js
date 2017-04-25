@@ -19,7 +19,7 @@ router.route('/leds/:id').get(function (req, res, next) { //#A
 }).put(function(req, res, next) { //#B
   var selectedLed = resources.pi.actuators.leds[req.params.id];
   selectedLed.value = req.body.value; //#C
-  led.switchOnOff(selectedLed.value);
+  led.switchOnOff(req.params.id, selectedLed.value);
   req.result = selectedLed;
   next();
 });
