@@ -1,26 +1,27 @@
 var resources = require('./../../resources/model');
 
-var actuator, interval;
-var model = resources.pi.actuators.leds['1'];
+var actuators = [];
+// var interval;
+var model = resources.pi.actuators.leds;
 var pluginName = model.name;
 var localParams = {'simulate': false, 'frequency': 2000};
+
+var numLed = 2;
 
 exports.start = function (params) {
   localParams = params;
   // observe(model); //#A
 
-  if (localParams.simulate) {
-    simulate();
-  } else {
+  if (!localParams.simulate) {
     connectHardware();
   }
 };
 
 exports.stop = function () {
-  if (localParams.simulate) {
-    clearInterval(interval);
-  } else {
-    actuator.unexport();
+  if (!localParams.simulate) {
+    for (i = 0; i < numLed; i++){
+        actuators[i].unexport();
+    }
   }
   console.info('%s plugin stopped!', pluginName);
 };
@@ -32,9 +33,9 @@ exports.stop = function () {
 //   });
 // };
 
-exports.switchOnOff = function(value) {
+exports.switchOnOff = function(ledNum, value) {
   if (!localParams.simulate) {
-    actuator.write(value === true ? 1 : 0, function () { //#C
+    actuators[ledNum].write(value === true ? 1 : 0, function () { //#C
       console.info('Changed value of %s to %s', pluginName, value);
     });
   }
@@ -42,21 +43,23 @@ exports.switchOnOff = function(value) {
 
 function connectHardware() {
   var Gpio = require('onoff').Gpio;
-  actuator = new Gpio(model.gpio, 'out'); //#D
+  for (i = 0; i < numLed; i++){
+    actuators[i] = new Gpio(model[i.toString()].gpio, 'out'); //#D
+  }
   console.info('Hardware %s actuator started!', pluginName);
 };
 
-function simulate() {
-  interval = setInterval(function () {
-    // Switch value on a regular basis
-    if (model.value) {
-      model.value = false;
-    } else {
-      model.value = true;
-    }
-  }, localParams.frequency);
-  console.info('Simulated %s actuator started!', pluginName);
-};
+// function simulate() {
+//   interval = setInterval(function () {
+//     // Switch value on a regular basis
+//     if (model.value) {
+//       model.value = false;
+//     } else {
+//       model.value = true;
+//     }
+//   }, localParams.frequency);
+//   console.info('Simulated %s actuator started!', pluginName);
+// };
 
 //#A Observe the model for the LEDs
 //#B Listen for model changes, on changes call switchOnOff

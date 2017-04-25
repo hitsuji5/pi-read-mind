@@ -1,8 +1,8 @@
 // Final version
 var express = require('express'),
   actuatorsRoutes = require('./../routes/actuators'),
-  sensorRoutes = require('./../routes/sensors'),
-  thingsRoutes = require('./../routes/things'),
+  // sensorRoutes = require('./../routes/sensors'),
+  // thingsRoutes = require('./../routes/things'),
   resources = require('./../resources/model'),
   converter = require('./../middleware/converter'),
   cors = require('cors'),
@@ -15,8 +15,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/pi/actuators', actuatorsRoutes);
-app.use('/pi/sensors', sensorRoutes);
-app.use('/things', thingsRoutes);
+// app.use('/pi/sensors', sensorRoutes);
+// app.use('/things', thingsRoutes);
 
 app.get('/pi', function (req, res) {
   res.send('This is the WoT-Pi!')
