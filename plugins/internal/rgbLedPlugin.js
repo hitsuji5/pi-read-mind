@@ -6,7 +6,16 @@ var model = resources.pi.actuators.rgbLed;
 var pluginName = resources.pi.actuators.rgbLed.name;
 
 exports.start = function () {
-  connectHardware();
+    connectHardware();
+    dutyCycle = 0;
+    setInterval(function () {
+        leds[0].pwmWrite(dutyCycle);
+    
+        dutyCycle += 5;
+        if (dutyCycle > 150) {
+            dutyCycle = 0;
+        }
+    }, 20);
 };
 
 exports.stop = function () {
