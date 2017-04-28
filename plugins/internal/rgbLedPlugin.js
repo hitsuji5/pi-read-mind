@@ -37,9 +37,9 @@ exports.blink = function(frequency) {
 
 function connectHardware() {
   var Gpio = require('pigpio').Gpio;
-  for (var pin in model.gpios) {
-      console.log(pin);
-      led = new Gpio(pin, {mode: Gpio.OUTPUT});
+  for (var i = 0; i < 3; i++) {
+      console.log(model.gpios);
+      led = new Gpio(model.gpios[i], {mode: Gpio.OUTPUT});
       led.pwmWrite(30);
       leds.push(led);
   }
