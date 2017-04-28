@@ -33,6 +33,8 @@ router.route('/rgbLed').get(function (req, res, next) { //#A
     if (req.body.value.length === 3) {
         rgbLed.value = req.body.value;
         rgbLedPlugin.changeColor(rgbLed.value);
+    } else if (req.body.value.length === 1) {
+        rgbLedPlugin.blink(rgbLed.value);
     }
     req.result = rgbLed;
     next();

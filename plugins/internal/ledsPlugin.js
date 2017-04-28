@@ -10,7 +10,7 @@ exports.start = function (params) {
 };
 
 exports.stop = function () {
-  for (var key in actuators){
+  for (var key in leds){
       leds[key].unexport();
   }
   console.info('%s plugin stopped!', pluginName);
@@ -18,7 +18,7 @@ exports.stop = function () {
 
 
 exports.switchOnOff = function(ledKey, value) {
-  actuators[ledKey].write(value === true ? 1 : 0, function () { //#C
+  leds[ledKey].write(value === true ? 1 : 0, function () { //#C
     console.info('Changed value of %s to %s', pluginName, value);
   });
 };

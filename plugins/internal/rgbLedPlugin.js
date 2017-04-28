@@ -7,15 +7,6 @@ var pluginName = resources.pi.actuators.rgbLed.name;
 
 exports.start = function () {
     connectHardware();
-    dutyCycle = 0;
-    setInterval(function () {
-        leds[0].pwmWrite(dutyCycle);
-    
-        dutyCycle += 5;
-        if (dutyCycle > 150) {
-            dutyCycle = 0;
-        }
-    }, 20);
 };
 
 exports.stop = function () {
@@ -27,9 +18,21 @@ exports.stop = function () {
 
 
 exports.changeColor = function(values) {
+  console.log(values);
   for (var i = 0; i < 3; i++) {
       leds[i].pwmWrite(Math.floor(values[i]));
   }
+};
+
+exports.blink = function(frequency) {
+    dutyCycle = 0;
+    setInterval(function () {
+        leds[0].pwmWrite(dutyCycle);
+        dutyCycle += 5;
+        if (dutyCycle > 150) {
+            dutyCycle = 0;
+        }
+    }, frequency);
 };
 
 function connectHardware() {
