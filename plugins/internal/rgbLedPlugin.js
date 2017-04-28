@@ -18,9 +18,9 @@ exports.stop = function () {
 
 
 exports.changeColor = function(values) {
-  console.log(values);
   for (var i = 0; i < 3; i++) {
       leds[i].pwmWrite(Math.floor(values[i]));
+      console.log(Math.floor(values[i]));
   }
 };
 
@@ -38,8 +38,9 @@ exports.blink = function(frequency) {
 function connectHardware() {
   var Gpio = require('pigpio').Gpio;
   for (var pin in model.gpios) {
+      console.log(pin);
       led = new Gpio(pin, {mode: Gpio.OUTPUT});
-      led.pwmWrite(0);
+      led.pwmWrite(30);
       leds.push(led);
   }
   console.info('Hardware %s actuator started!', pluginName);
