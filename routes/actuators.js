@@ -24,37 +24,17 @@ router.route('/leds/:id').get(function (req, res, next) { //#A
   next();
 });
 
-module.exports = router;
-
-//#A Callback for a GET request on an LED
-//#B Callback for a PUT request on an LED
-//#C Update the value of the selected LED in the model
-
-
-/*
-//Initial version:
-
-var express = require('express'),
-router = express.Router(),
-resources = require('./../resources/model');
-
-router.route('/').get(function (req, res, next) { // #A
- res.send(resources.pi.actuators); // #B
-});
-
-router.route('/leds').get(function (req, res, next) { // #C
-  res.send(resources.pi.actuators.leds);
-});
-
-router.route('/leds/:id').get(function (req, res, next) { //#D
-  res.send(resources.pi.actuators.leds[req.params.id]); //#E
+router.route('/rgbLed').get(function (req, res, next) { //#A
+    req.result = resources.pi.actuators.rgbLed;
+    next();
+}).put(function(req, res, next) { //#B
+    rgbLed = resources.pi.actuators.rgbLed;
+    if (req.body.value.length == 3) {
+        rgbLed.value = req.body.value;
+        led.changeColor(rgbLed.value);
+    }
+    req.result = rgbLed;
+    next();
 });
 
 module.exports = router;
-
-//#A Create a new route for a GET request
-//#B Reply with the actuators model when this route is selected
-//#C This route serves a list of LEDs
-//#D with :id we inject a variable in the path which will be the LED number
-//#E the path variables are accessible via req.params.id we use this to select the right object in our model and return it
-*/
