@@ -29,10 +29,10 @@ exports.blink = function(frequency, initValues) {
     dutyCycle = initValues;
     interval = setInterval(function () {
         for (var i = 0; i < 3; i++){
-            leds[i].pwmWrite(dutyCycle[i]);
+            leds[i].pwmWrite(Math.abs(dutyCycle[i]));
             dutyCycle[i] += 5;
             if (dutyCycle[i] > 150) {
-                dutyCycle[i] = 0;
+                dutyCycle[i] = -150;
             }
         }
     }, frequency);
