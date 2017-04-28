@@ -1,7 +1,8 @@
 var express = require('express'),
   router = express.Router(),
   resources = require('./../resources/model'),
-  led = require('./../plugins/internal/ledsPlugin');
+  ledPlugin = require('./../plugins/internal/ledsPlugin'),
+  rgbLedPlugin = require('./../plugins/internal/rgbLedPlugin');
 
 router.route('/').get(function (req, res, next) {
   req.result = resources.pi.actuators;
@@ -19,7 +20,7 @@ router.route('/leds/:id').get(function (req, res, next) { //#A
 }).put(function(req, res, next) { //#B
   var selectedLed = resources.pi.actuators.leds[req.params.id];
   selectedLed.value = req.body.value; //#C
-  led.switchOnOff(req.params.id, selectedLed.value);
+  ledPlugin.switchOnOff(req.params.id, selectedLed.value);
   req.result = selectedLed;
   next();
 });
@@ -29,9 +30,9 @@ router.route('/rgbLed').get(function (req, res, next) { //#A
     next();
 }).put(function(req, res, next) { //#B
     rgbLed = resources.pi.actuators.rgbLed;
-    if (req.body.value.length == 3) {
+    if (req.body.value.length === 3) {
         rgbLed.value = req.body.value;
-        led.changeColor(rgbLed.value);
+        rgbLedPlugin.changeColor(rgbLed.value);
     }
     req.result = rgbLed;
     next();
