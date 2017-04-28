@@ -1,7 +1,7 @@
 var resources = require('./../../resources/model');
 
 var leds = [];
-// var interval;
+var interval;
 var model = resources.pi.actuators.rgbLed;
 var pluginName = resources.pi.actuators.rgbLed.name;
 
@@ -25,8 +25,9 @@ exports.changeColor = function(values) {
 };
 
 exports.blink = function(frequency, initValues) {
+    clearInterval(interval);
     dutyCycle = initValues;
-    setInterval(function () {
+    interval = setInterval(function () {
         for (var i = 0; i < 3; i++){
             leds[i].pwmWrite(dutyCycle[i]);
             dutyCycle[i] += 5;
