@@ -30,12 +30,8 @@ router.route('/rgbLed').get(function (req, res, next) { //#A
     next();
 }).put(function(req, res, next) { //#B
     rgbLed = resources.pi.actuators.rgbLed;
-    if (req.body.value.length === 3) {
-        rgbLed.value = req.body.value;
-        rgbLedPlugin.changeColor(rgbLed.value);
-    } else if (req.body.value.length === 1) {
-        rgbLedPlugin.blink(rgbLed.value);
-    }
+    rgbLed.value = req.body.value;
+    rgbLedPlugin.blink(rgbLed.value, req.body.init);
     req.result = rgbLed;
     next();
 });

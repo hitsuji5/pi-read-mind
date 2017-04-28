@@ -24,13 +24,15 @@ exports.changeColor = function(values) {
   }
 };
 
-exports.blink = function(frequency) {
-    dutyCycle = 0;
+exports.blink = function(frequency, initValues) {
+    dutyCycle = initValues;
     setInterval(function () {
-        leds[0].pwmWrite(dutyCycle);
-        dutyCycle += 5;
-        if (dutyCycle > 150) {
-            dutyCycle = 0;
+        for (var i = 0; i < 3; i++){
+            leds[i].pwmWrite(dutyCycle[i]);
+            dutyCycle[i] += 5;
+            if (dutyCycle[i] > 150) {
+                dutyCycle[i] = 0;
+            }
         }
     }, frequency);
 };
@@ -38,9 +40,8 @@ exports.blink = function(frequency) {
 function connectHardware() {
   var Gpio = require('pigpio').Gpio;
   for (var i = 0; i < 3; i++) {
-      console.log(model.gpios);
       led = new Gpio(model.gpios[i], {mode: Gpio.OUTPUT});
-      led.pwmWrite(30);
+      led.pwmWrite(0);
       leds.push(led);
   }
   console.info('Hardware %s actuator started!', pluginName);
