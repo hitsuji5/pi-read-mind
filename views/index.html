@@ -34,10 +34,10 @@
         function changeColor() {
             $.ajax({ //#G
                 method: 'PUT',
-                url: '/actuators/rgbLed/',
+                url: '/moods/',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    value: !!Number($('#color').val())
+                    value: $('#color').val()
                 }),
                 dataType: 'json',
                 processData: false,
