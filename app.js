@@ -18,11 +18,12 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+app.use('/actuators', actuatorsRoutes);
+app.use('/mood', moodsRoutes);
+
 app.get('/', function (req, res) {
     res.sendFile('views/index.html', {root: __dirname })
 });
-app.use('/actuators', actuatorsRoutes);
-app.use('/mood', moodsRoutes);
 
 // For representation design
 // app.use(converter());
