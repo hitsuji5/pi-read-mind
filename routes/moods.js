@@ -5,8 +5,9 @@ var express = require('express'),
 var currentMood = 'neutral';
 
 router.route('/').get(function (req, res, next) {
-  req.result = currentMood;
-  next();
+    console.log(currentMood);
+    req.result = currentMood;
+    next();
 }).put(function(req, res, next) {
     currentMood = req.body.mood;
     rgbLedPlugin.changeColor(req.body.mood);
