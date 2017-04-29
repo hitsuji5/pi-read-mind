@@ -40,16 +40,14 @@ router.route('/rgbLed').get(function (req, res, next) { //#A
 });
 
 router.get('/camera', function (req, res) {
-    var raspistill = spawn('raspistill', [ '-o' , './public/images/pi.jpg']);
+    var raspistill = spawn('raspistill', [ '-o' , './public/images/test.jpg']);
 
     raspistill.stdout.on('data', function (data) {
         console.log('stdout: ' + data);
     });
-
     raspistill.stderr.on('data', function (data) {
         console.log('stderr: ' + data);
     });
-
     raspistill.on('close', function (code) {
         console.log('child process exited with code ' + code);
     });
