@@ -34,7 +34,7 @@
         function changeColor() {
             $.ajax({ //#G
                 method: 'PUT',
-                url: '/moods/',
+                url: '/mood/',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     value: $('#color').val()
