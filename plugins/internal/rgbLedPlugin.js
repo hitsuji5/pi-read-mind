@@ -68,19 +68,19 @@ function reset(){
 function blink(frequency, pattern) {
     offset = [0, 0, 0];
     colorIdStart = 0;
-    colorIdEnd = 2;
+    colorIdEnd = 3;
     switch (pattern){
         case 'red':
             colorIdStart = 0;
             colorIdEnd = 1;
             break;
         case 'green':
-            colorIdStart = 1;
-            colorIdEnd = 2;
-            break;
-        case 'blue':
             colorIdStart = 2;
             colorIdEnd = 3;
+            break;
+        case 'blue':
+            colorIdStart = 1;
+            colorIdEnd = 2;
             break;
         case 'white':
             break;
