@@ -17,15 +17,15 @@ exports.stop = function () {
 };
 
 
-exports.changeColor = function(values) {
-  for (var i = 0; i < 3; i++) {
-      leds[i].pwmWrite(Math.floor(values[i]));
-      console.log(Math.floor(values[i]));
-  }
-};
+// exports.changeColor = function(values) {
+//   for (var i = 0; i < 3; i++) {
+//       leds[i].pwmWrite(Math.floor(values[i]));
+//       console.log(Math.floor(values[i]));
+//   }
+// };
 
 
-exports.emphasize = function(mood) {
+exports.changeColor = function(mood) {
     reset();
     switch (mood){
         case 'joy':

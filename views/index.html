@@ -12,43 +12,63 @@
 </head>
 
 <body>
-  <h1>Pi Monitor</h1>
-    <!--<form id="light">-->
-      <!--<select id="lightId" name="lightId">-->
-        <!--<option value=4>Light One</option>-->
-        <!--<option value=5>Light Two</option>-->
-      <!--</select>-->
-      <!--<select id="lightOn" name="lightOn">-->
-        <!--<option value=0>OFF</option>-->
-        <!--<option value=1>ON</option>-->
-      <!--</select>-->
-      <!--<input type="text" id="lightBri" name="lightBri" placeholder="Brightness" />-->
-      <!--<button type="submit">Submit</button>-->
-    <!--</form>-->
+<h1>Pi Monitor</h1>
+<div>
+  <form id="led">
+    <select id="color" name="color">
+      <option value="joy">joy</option>
+      <option value="sad">sad</option>
+      <option value="anger">anger</option>
+      <option value="fear">fear</option>
+      <option value="surprise">surprise</option>
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+  Camera:
   <button id="shutter">Shutter</button>
+</div>
+<img id="camImg" width="640" height="480" src="/images/pi.jpg"/>
 
-  <img id="camImg" width="640" height="480" src="/images/pi.jpg"/>
+<script type="text/javascript">
+    $(document).ready(function () {
+        function changeColor() {
+            $.ajax({ //#G
+                method: 'PUT',
+                url: '/actuators/rgbLed/',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    value: !!Number($('#color').val())
+                }),
+                dataType: 'json',
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
 
-  <script type="text/javascript">
-$(document).ready(function () {
-  function takePicture() {
-    $.ajax({ //#G
-      method: 'GET',
-//      contentType: 'application/json',
-      url: '/actuators/camera/',
-      dataType: 'json',
-      processData: false,
-      success: function (data) {
-        console.log(data);
-        $('#camImg').attr('src', data.path); //#H
-      },
-      error: function (err) {
-        console.log(err);
-      }
+
+        function takePicture() {
+            $.ajax({ //#G
+                method: 'GET',
+                url: '/actuators/camera/',
+                dataType: 'json',
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                    $('#camImg').attr('src', data.path); //#H
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        $('#led').submit(changeColor);
+        $('#shutter').click(takePicture);
     });
-  }
-  $('#shutter').click(takePicture);
-});
-  </script>
+</script>
 </body>
 </html>
