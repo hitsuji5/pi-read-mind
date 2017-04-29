@@ -9,7 +9,7 @@ router.route('/').get(function (req, res, next) {
   next();
 }).put(function(req, res, next) {
     currentMood = req.body.mood;
-    rgbLedPlugin.emphasize(req.body.mood);
+    rgbLedPlugin.changeColor(req.body.mood);
     req.result = currentMood;
     next();
 });
