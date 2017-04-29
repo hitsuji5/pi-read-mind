@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My first WoT Mashup!</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <h1>Pi Monitor</h1>
+    <!--<form id="light">-->
+      <!--<select id="lightId" name="lightId">-->
+        <!--<option value=4>Light One</option>-->
+        <!--<option value=5>Light Two</option>-->
+      <!--</select>-->
+      <!--<select id="lightOn" name="lightOn">-->
+        <!--<option value=0>OFF</option>-->
+        <!--<option value=1>ON</option>-->
+      <!--</select>-->
+      <!--<input type="text" id="lightBri" name="lightBri" placeholder="Brightness" />-->
+      <!--<button type="submit">Submit</button>-->
+    <!--</form>-->
+  <button id="shutter">Shutter</button>
+
+  <img id="camImg" src="/images/pi.jpg"/>
+
+  <script type="text/javascript">
+$(document).ready(function () {
+  function takePicture() {
+    $.ajax({ //#G
+      method: 'GET',
+//      contentType: 'application/json',
+      url: '/actuators/camera/',
+      dataType: 'json',
+      processData: false,
+      success: function (data) {
+        console.log(data);
+        $('#camImg').attr('src', data.path); //#H
+      },
+      error: function (err) {
+        console.log(err);
+      }
+    });
+  }
+  $('#shutter').click(takePicture);
+});
+  </script>
+</body>
+</html>

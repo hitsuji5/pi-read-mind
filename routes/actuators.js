@@ -4,6 +4,9 @@ var express = require('express'),
   ledPlugin = require('./../plugins/internal/ledsPlugin'),
   rgbLedPlugin = require('./../plugins/internal/rgbLedPlugin');
 
+var spawn = require('child_process').spawn;
+rgbLedPlugin.start();
+
 router.route('/').get(function (req, res, next) {
   req.result = resources.pi.actuators;
   next();
@@ -34,6 +37,24 @@ router.route('/rgbLed').get(function (req, res, next) { //#A
     rgbLedPlugin.emphasize(rgbLed.value);
     req.result = rgbLed;
     next();
+});
+
+router.get('/camera', function (req, res) {
+    var raspistill = spawn('raspistill', [ '-o' , './public/images/pi.jpg']);
+
+    raspistill.stdout.on('data', function (data) {
+        console.log('stdout: ' + data);
+    });
+
+    raspistill.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+    });
+
+    raspistill.on('close', function (code) {
+        console.log('child process exited with code ' + code);
+    });
+    console.log('shutter!');
+    res.json({path: '/images/test.jpg'});
 });
 
 

@@ -97,5 +97,6 @@ function blink(frequency, pattern) {
             leds[i].pwmWrite(Math.abs(dutyCycle + offset[i]));
         }
     }, frequency);
+    setTimeout(reset, 10000);
 };
 
