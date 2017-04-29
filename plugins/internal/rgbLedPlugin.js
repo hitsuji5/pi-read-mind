@@ -71,19 +71,20 @@ function blink(frequency, pattern) {
     colorIdEnd = 2;
     switch (pattern){
         case 'red':
-            colorIds = [0];
+            colorIdStart = 0;
+            colorIdEnd = 1;
             break;
         case 'green':
-            colorIds = [1];
+            colorIdStart = 1;
+            colorIdEnd = 2;
             break;
         case 'blue':
-            colorIds = [2];
+            colorIdStart = 2;
+            colorIdEnd = 3;
             break;
         case 'white':
-            colorIds = [0, 1, 2];
             break;
         case 'default':
-            colorIds = [0, 1, 2];
             offset = [0, 50, 100];
     }
     dutyCycle = 0;
@@ -92,7 +93,7 @@ function blink(frequency, pattern) {
         if (dutyCycle > 150) {
             dutyCycle = -150;
         }
-        for (var i in colorIds){
+        for (var i = colorIdStart; i < colorIdEnd; i++){
             leds[i].pwmWrite(Math.abs(dutyCycle + offset[i]));
         }
     }, frequency);
