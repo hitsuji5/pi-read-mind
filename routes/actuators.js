@@ -34,7 +34,7 @@ router.route('/rgbLed').get(function (req, res, next) { //#A
 }).put(function(req, res, next) { //#B
     rgbLed = resources.pi.actuators.rgbLed;
     rgbLed.value = req.body.value;
-    rgbLedPlugin.emphasize(rgbLed.value);
+    rgbLedPlugin.changeColor(rgbLed.value);
     req.result = rgbLed;
     next();
 });
