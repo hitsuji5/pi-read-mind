@@ -26,26 +26,26 @@ exports.changeColor = function(values) {
 
 
 exports.emphasize = function(mood) {
+    reset();
     switch (mood){
         case 'joy':
-            blink(50, 'white');
+            blink(30, 'white');
             break;
         case 'sad':
-            blink(300, 'blue');
+            blink(200, 'blue');
             break;
         case 'anger':
-            blink(30, 'red');
+            blink(20, 'red');
             break;
         case 'fear':
-            blink(200, 'green');
+            blink(100, 'green');
             break;
         case 'surprise':
             blink(20, 'mix');
             break;
-        default:
-            clearInterval(interval);
     }
 };
+
 
 function connectHardware() {
   var Gpio = require('pigpio').Gpio;
@@ -57,8 +57,15 @@ function connectHardware() {
   console.info('Hardware %s actuator started!', pluginName);
 };
 
-function blink(frequency, pattern) {
+
+function reset(){
     clearInterval(interval);
+    for (var i = 0; i < 3; i++) {
+        leds[i].pwmWrite(0);
+    }
+};
+
+function blink(frequency, pattern) {
     offset = [0, 0, 0];
     colorIdStart = 0;
     colorIdEnd = 2;
