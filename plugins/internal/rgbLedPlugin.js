@@ -24,18 +24,27 @@ exports.changeColor = function(values) {
   }
 };
 
-exports.blink = function(frequency, initValues) {
-    clearInterval(interval);
-    dutyCycle = initValues;
-    interval = setInterval(function () {
-        for (var i = 0; i < 3; i++){
-            leds[i].pwmWrite(Math.abs(dutyCycle[i]));
-            dutyCycle[i] += 5;
-            if (dutyCycle[i] > 150) {
-                dutyCycle[i] = -150;
-            }
-        }
-    }, frequency);
+
+exports.emphasize = function(mood) {
+    switch (mood){
+        case 'joy':
+            blink(50, 'white');
+            break;
+        case 'sad':
+            blink(200, 'blue');
+            break;
+        case 'anger':
+            blink(20, 'red');
+            break;
+        case 'fear':
+            blink(200, 'green');
+            break;
+        case 'surprise':
+            blink(200, 'mix');
+            break;
+        defualt:
+            clearInterval(interval);
+    }
 };
 
 function connectHardware() {
@@ -46,5 +55,39 @@ function connectHardware() {
       leds.push(led);
   }
   console.info('Hardware %s actuator started!', pluginName);
+};
+
+function blink(frequency, pattern) {
+    clearInterval(interval);
+    offset = [0, 0, 0];
+    colorIdStart = 0;
+    colorIdEnd = 2;
+    switch (pattern){
+        case 'red':
+            colorIds = [0];
+            break;
+        case 'green':
+            colorIds = [1];
+            break;
+        case 'blue':
+            colorIds = [2];
+            break;
+        case 'white':
+            colorIds = [0, 1, 2];
+            break;
+        case 'default':
+            colorIds = [0, 1, 2];
+            offset = [0, 50, 100];
+    }
+    dutyCycle = 0;
+    interval = setInterval(function () {
+        dutyCycle += 5;
+        if (dutyCycle > 150) {
+            dutyCycle = -150;
+        }
+        for (var i in colorIds){
+            leds[i].pwmWrite(Math.abs(dutyCycle + offset[i]));
+        }
+    }, frequency);
 };
 

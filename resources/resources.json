@@ -6,7 +6,7 @@
     "actuators": {
       "rgbLed": {
         "name": "RGB LED",
-        "value": [0, 0, 0],
+        "value": 'stop',
         "gpios": [18, 23, 24]
       },
       "leds": {
