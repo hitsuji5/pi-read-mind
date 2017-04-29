@@ -31,18 +31,18 @@ exports.emphasize = function(mood) {
             blink(50, 'white');
             break;
         case 'sad':
-            blink(200, 'blue');
+            blink(300, 'blue');
             break;
         case 'anger':
-            blink(20, 'red');
+            blink(30, 'red');
             break;
         case 'fear':
             blink(200, 'green');
             break;
         case 'surprise':
-            blink(200, 'mix');
+            blink(20, 'mix');
             break;
-        defualt:
+        default:
             clearInterval(interval);
     }
 };
