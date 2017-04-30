@@ -4,6 +4,10 @@
     "description": "A simple WoT-connected Raspberry.",
     "port": 8484,
     "actuators": {
+      "camera": {
+        "name": "Pi Camera",
+        "value": "alive"
+      },
       "rgbLed": {
         "name": "RGB LED",
         "value": "neutral",

@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My first WoT Mashup!</title>
+  <title>PI Controller</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../../hue_controller/public/stylesheets/style.css">
 </head>
 
 <body>
@@ -22,6 +23,10 @@
 <div class="container bs-docs-container">
   <div class="row">
     <div class="col-md-9" role="main">
+      <div id="response">
+        Response: <pre></pre>
+      </div>
+
       <div class="bs-docs-section">
 
         <h2>LED</h2>
@@ -38,7 +43,8 @@
         <hr>
         <h2>Camera</h2>
         <button class="col-sm-4 btn btn-primary" id="shutter">Shutter</button>
-        <img id="camImg" width="640" height="480" src="/images/pi.jpg"/>
+        <h2>Picture</h2>
+        <img id="camImg" width="480" height="320" src=""/>
       </div>
     </div>
   </div>
@@ -50,7 +56,7 @@
         function changeColor() {
             $.ajax({ //#G
                 method: 'PUT',
-                url: '/mood/',
+                url: '/led/',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     mood: $('#color').val()
@@ -59,6 +65,7 @@
                 processData: false,
                 success: function (data) {
                     console.log(data);
+                    $('#response pre').html( JSON.stringify( data ) );
                 },
                 error: function (err) {
                     console.log(err);
@@ -70,12 +77,17 @@
         function takePicture() {
             $.ajax({ //#G
                 method: 'POST',
-                url: '/actuators/camera/',
+                url: '/camera/',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    time: 0
+                }),
                 dataType: 'json',
                 processData: false,
                 success: function (data) {
                     console.log(data);
                     $('#camImg').attr('src', data.path); //#H
+                    $('#response pre').html( JSON.stringify( data ) );
                 },
                 error: function (err) {
                     console.log(err);

@@ -75,12 +75,12 @@ function blink(frequency, pattern) {
             colorIdEnd = 1;
             break;
         case 'green':
-            colorIdStart = 2;
-            colorIdEnd = 3;
-            break;
-        case 'blue':
             colorIdStart = 1;
             colorIdEnd = 2;
+            break;
+        case 'blue':
+            colorIdStart = 2;
+            colorIdEnd = 3;
             break;
         case 'white':
             break;
