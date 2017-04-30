@@ -12,22 +12,38 @@
 </head>
 
 <body>
-<h1>Pi Monitor</h1>
-<div>
-  <form id="led">
-    <select id="color" name="color">
-      <option value="joy">joy</option>
-      <option value="sad">sad</option>
-      <option value="anger">anger</option>
-      <option value="fear">fear</option>
-      <option value="surprise">surprise</option>
-    </select>
-    <button type="submit">Submit</button>
-  </form>
-  Camera:
-  <button id="shutter">Shutter</button>
+<div class="bs-docs-header" id="content" tabindex="-1">
+  <div class="container">
+    <h1>PI Controller</h1>
+    <p>Control Web Thing!</p>
+  </div>
 </div>
-<img id="camImg" width="640" height="480" src="/images/pi.jpg"/>
+
+<div class="container bs-docs-container">
+  <div class="row">
+    <div class="col-md-9" role="main">
+      <div class="bs-docs-section">
+
+        <h2>LED</h2>
+        <form id="led">
+          <select id="color" name="color">
+            <option value="joy">joy</option>
+            <option value="sad">sad</option>
+            <option value="anger">anger</option>
+            <option value="fear">fear</option>
+            <option value="surprise">surprise</option>
+          </select>
+          <button type="submit">Send</button>
+        </form>
+        <hr>
+        <h2>Camera</h2>
+        <button class="col-sm-4 btn btn-primary" id="shutter">Shutter</button>
+        <img id="camImg" width="640" height="480" src="/images/pi.jpg"/>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -37,7 +53,7 @@
                 url: '/mood/',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    value: $('#color').val()
+                    mood: $('#color').val()
                 }),
                 dataType: 'json',
                 processData: false,
@@ -53,7 +69,7 @@
 
         function takePicture() {
             $.ajax({ //#G
-                method: 'GET',
+                method: 'POST',
                 url: '/actuators/camera/',
                 dataType: 'json',
                 processData: false,
