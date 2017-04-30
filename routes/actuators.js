@@ -39,11 +39,7 @@ router.route('/rgbLed').get(function (req, res, next) { //#A
     next();
 });
 
-router.route('/camera').get(function(req, res){
-    // var buf = fs.readFileSync('test.jpg');
-    res.set('Content-Type', 'image/jpeg');
-    res.sendFile('./public/images/test.jpg');
-}).post(function (req, res) {
+router.route('/camera').post(function (req, res) {
     var raspistill = spawn('raspistill', [ '-o' , './public/images/test.jpg']);
     raspistill.stdout.on('data', function (data) {
         console.log('stdout: ' + data);
@@ -55,7 +51,7 @@ router.route('/camera').get(function(req, res){
         console.log('child process exited with code ' + code);
     });
     console.log('shutter!');
-    res.json({path: '/actuators/camera'});
+    res.json({path: '/picture'});
 });
 
 

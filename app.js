@@ -25,6 +25,11 @@ app.get('/', function (req, res) {
     res.sendFile('views/index.html', {root: __dirname })
 });
 
+app.get('/picture', function(req, res){
+    res.set('Content-Type', 'image/jpeg');
+    console.log(path.join(__dirname, '/public/images/test.jpg'));
+    res.sendFile(path.join(__dirname, '/public/images/test.jpg'));
+});
 // For representation design
 // app.use(converter());
 
