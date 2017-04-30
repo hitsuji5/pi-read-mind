@@ -55,7 +55,7 @@ router.route('/camera').get(function(req, res){
         console.log('child process exited with code ' + code);
     });
     console.log('shutter!');
-    res.json({path: '/camera'});
+    res.json({path: '/actuators/camera'});
 });
 
 
