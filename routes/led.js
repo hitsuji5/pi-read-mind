@@ -2,17 +2,15 @@ var express = require('express'),
     router = express.Router(),
     rgbLedPlugin = require('./../plugins/internal/rgbLedPlugin');
 
+rgbLedPlugin.start();
 var currentMood = 'neutral';
 
-router.route('/').get(function (req, res, next) {
-    console.log(currentMood);
-    req.result = currentMood;
-    next();
-}).put(function(req, res, next) {
+router.route('/').get(function (req, res) {
+    res.json({mood : currentMood});
+}).put(function(req, res) {
     currentMood = req.body.mood;
-    rgbLedPlugin.changeColor(req.body.mood);
-    req.result = currentMood;
-    next();
+    rgbLedPlugin.changeColor(currentMood);
+    res.json({mood : currentMood});
 });
 
 // router.route('/').get(function (req, res, next) {

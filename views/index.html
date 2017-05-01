@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="../../hue_controller/public/stylesheets/style.css">
 </head>
 
 <body>
@@ -26,25 +25,24 @@
       <div id="response">
         Response: <pre></pre>
       </div>
-
+      <hr>
       <div class="bs-docs-section">
 
         <h2>LED</h2>
-        <form id="led">
-          <select id="color" name="color">
-            <option value="joy">joy</option>
-            <option value="sad">sad</option>
-            <option value="anger">anger</option>
-            <option value="fear">fear</option>
-            <option value="surprise">surprise</option>
-          </select>
-          <button type="submit">Send</button>
-        </form>
+        <select id="color" name="color">
+          <option value="joy">joy</option>
+          <option value="sad">sad</option>
+          <option value="anger">anger</option>
+          <option value="fear">fear</option>
+          <option value="surprise">surprise</option>
+        </select>
+        <button class="col-sm-4 btn btn-primary" id="express">Express</button>
         <hr>
         <h2>Camera</h2>
         <button class="col-sm-4 btn btn-primary" id="shutter">Shutter</button>
-        <h2>Picture</h2>
-        <img id="camImg" width="480" height="320" src=""/>
+        <button class="col-sm-4 btn btn-primary" id="readMind">Read Mind</button>
+        <h4>Picture</h4>
+        <img id="camImg" width="640" height="480" src=""/>
       </div>
     </div>
   </div>
@@ -56,7 +54,7 @@
         function changeColor() {
             $.ajax({ //#G
                 method: 'PUT',
-                url: '/led/',
+                url: '/led',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     mood: $('#color').val()
@@ -77,7 +75,7 @@
         function takePicture() {
             $.ajax({ //#G
                 method: 'POST',
-                url: '/camera/',
+                url: '/camera',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     time: 0
@@ -86,7 +84,9 @@
                 processData: false,
                 success: function (data) {
                     console.log(data);
-                    $('#camImg').attr('src', data.path); //#H
+                    setTimeout(function(){
+                        $('#camImg').attr('src', data.path);
+                    }, 8000);
                     $('#response pre').html( JSON.stringify( data ) );
                 },
                 error: function (err) {
@@ -94,8 +94,25 @@
                 }
             });
         }
-        $('#led').submit(changeColor);
+
+        function readMind() {
+            $.ajax({ //#G
+                method: 'GET',
+                url: '/camera/mood',
+                dataType: 'json',
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                    $('#response pre').html( JSON.stringify( data ) );
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        $('#express').click(changeColor);
         $('#shutter').click(takePicture);
+        $('#readMind').click(readMind);
     });
 </script>
 </body>
